@@ -1,4 +1,4 @@
-# Library management – TP 2
+# Library management – TP 2 (with search)
 
 Java/Maven project for a simple library management application.
 
