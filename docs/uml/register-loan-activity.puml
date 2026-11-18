@@ -1,0 +1,93 @@
+ @startuml
+
+title UC-05 - Register a loan
+
+|Librarian|
+
+start
+
+:Scan member card;
+
+if (Card readable?) then (yes)
+
+else (no)
+    :Type member number;
+endif
+
+|System|
+
+:Display member information
+and current loans;
+
+:Check borrowing rights
+(UC-09);
+
+if (Borrowing rights accepted?) then (yes)
+
+    repeat
+
+        |Librarian|
+
+        :Scan copy barcode;
+
+        if (Barcode readable?) then (yes)
+
+        else (no)
+            :Type inventory number;
+        endif
+
+        |System|
+
+        :Check copy availability;
+
+        if (Copy reserved for another member?) then (yes)
+
+            :Refuse this copy;
+            :Display reservation;
+
+        else (no)
+
+            if (Maximum loans reached?) then (yes)
+
+                :Refuse further copy;
+                :Inform the librarian;
+
+            else (no)
+
+                :Record loan;
+                :Set due date 14 days later;
+                :Mark copy as borrowed;
+
+            endif
+
+        endif
+
+    repeat while (Another copy presented
+    and loan limit not reached?) is (yes) not (no)
+
+    |Librarian|
+
+    :End transaction;
+
+    |System|
+
+    :Print receipt with copies
+    and due dates;
+
+else (no)
+
+    :Display suspension or overdue reason;
+
+endif
+
+stop
+
+note right
+  Exception *a:
+  Database connection lost at any time.
+  Cancel the loan in progress.
+  Display an error.
+  Keep already confirmed loans.
+end note
+
+@enduml

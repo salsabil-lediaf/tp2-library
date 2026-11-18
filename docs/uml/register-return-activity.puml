@@ -1,0 +1,26 @@
+@startuml
+title UC-07 - Register a return
+
+|Member|
+start
+:Bring back the borrowed copy;
+
+|System|
+:Identify the corresponding loan;
+:Close the loan;
+
+if (Return is late?) then (yes)
+  :Activate extension point
+  "late return";
+  :Suspend the member;
+else (no)
+endif
+
+if (Copy is reserved?) then (yes)
+  :Keep the copy aside;
+  :Notify the member who reserved it;
+else (no)
+endif
+
+stop
+@enduml
