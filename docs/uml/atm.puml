@@ -10,5 +10,5 @@ rectangle "ATM" {
 
 Customer -- Withdraw
 Customer -- Balance
-Customer --> Withdraw
+ 
 @enduml

@@ -1,25 +1,46 @@
-@startuml
+ @startuml
 title UC-07 - Register a return
 
 |Member|
 start
 :Bring back the borrowed copy;
 
-|System|
-:Identify the corresponding loan;
-:Close the loan;
+|Librarian|
+:Scan copy barcode;
 
-if (Return is late?) then (yes)
-  :Activate extension point
-  "late return";
-  :Suspend the member;
+if (Barcode readable?) then (yes)
 else (no)
+    :Type inventory number;
 endif
 
-if (Copy is reserved?) then (yes)
-  :Keep the copy aside;
-  :Notify the member who reserved it;
+|System|
+:Identify the corresponding loan;
+
+if (Is the copy currently borrowed?) then (yes)
+    :Close the loan;
+
+    if (Return is late?) then (yes)
+        :Activate extension point
+        "late return";
+        :Suspend the member;
+    else (no)
+    endif
+
+    if (Copy is reserved?) then (yes)
+        :Keep the copy aside;
+        :Notify the member who reserved it;
+        |Mail server|
+        :Send notification email;
+    else (no)
+        |System|
+        :Mark copy as available;
+    endif
+
+    |System|
+    :Print the receipt;
+
 else (no)
+    :Display error message;
 endif
 
 stop

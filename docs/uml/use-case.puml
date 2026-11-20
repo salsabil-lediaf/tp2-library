@@ -11,7 +11,7 @@ rectangle "Library system" {
     usecase "Search the catalog" as Search
     usecase "Reserve a book" as Reserve
     usecase "Renew a loan" as Renew
-    usecase "Lend copies" as Lend
+    usecase "Register a loan" as Lend
 
     usecase Return as "Register a return
     --
@@ -40,8 +40,7 @@ Mail -- Reserve
 Renew ..> Check : <<include>>
 Lend ..> Check : <<include>>
 
-Return ..> Suspend : <<extend>>
-'Suspend ..> Return  : <<extend>>
+Suspend ..> Return  : <<extend>>
 note right of Suspend
   condition: returned late
   extension point: late return
